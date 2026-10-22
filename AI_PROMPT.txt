@@ -1,0 +1,52 @@
+Build a complete, student-friendly desktop application called “Pocket Atlas” for recording and understanding personal income, expenses and monthly budgets. Use Python with PyQt6 and SQLite. Follow the approved Personal Expense Manager theme, include file handling and report generation, and produce a distributable Windows executable. Keep the code practical to explain while making the interface feel like a polished personal finance journal.
+
+DESIGN AND VISUAL STYLE
+
+Use a warm paper-and-forest identity: paper background (#F3F0E6), deep green sidebar (#233B30), dark text (#24392E), muted green-gray text (#6D796C), cream panels (#FFFCF4) and lime primary actions (#CDDD9D). Use pale red for destructive actions and avoid distracting colours. Use Segoe UI at approximately 13 px for body text, Georgia at 29 px for page titles, 18 px section headings and 24 px financial totals.
+
+Start at 1420 × 930 and support a minimum of 1120 × 780. Keep the sidebar 194 px wide, outer spacing near 27 px and layout gaps around 13–15 px. Use 14 px panel radii, 12 px statistics cards, 8 px buttons, 7 px inputs and 9 px table corners. Give fields 9 px padding, buttons 10 × 14 px padding and tables 45 px rows. Use 1 px borders (#D7DDCC), alternating rows, clear headers, visible selection and scrollable forms. Wrap headings cleanly and show useful empty states.
+
+APPLICATION AND NAVIGATION
+
+Provide six connected screens: Overview, Transactions, Accounts, Categories, Budgets and Reports. Overview should show recorded balance, monthly income/expenses, account balances and recent entries. Include File, Go to and Help menus for new transactions, JSON import/export, report export, navigation, exit and About. Make forms clearly labelled and keep the active navigation item consistent.
+
+DATABASE
+
+Create four related SQLite tables for accounts, categories, transactions and budgets, accessed through Python connectivity. Use integer primary keys and stable UUIDs for file import. Transactions must reference an account and category; budgets reference an expense category with a unique category/month pair. Enable foreign keys and use parameterised SQL. Store money as integer paise using validated decimal conversion. Restrict account/category deletion while referenced and prevent changes to a used category that would reverse Income/Expense meaning.
+
+CRUD FORMS AND VALIDATION
+
+Implement complete CRUD for every table. Accounts need name, type and opening balance. Categories need a unique name and Income/Expense type. Transactions need title, account, category, positive amount, date and optional notes. Budgets need expense category, month and positive limit. Validate names, dates, references, amounts and duplicate category/month budgets. Permit zero openings but require positive transaction/budget amounts. Selecting a row should load it for editing; saving must update the same record. Confirm deletion, explain blocked operations and preserve invalid input. Protect unsaved changes with Save/Discard/Cancel.
+
+CALCULATIONS SEARCH AND REPORTS
+
+Calculate recorded balances as opening plus income minus expenses; opening balances must not count as income. Compare monthly budget limits with actual category spending for that month and recalculate after changes. Search transaction titles, categories and notes, and filter by income/expense type. Reports should filter by start date, end date, account and type, reject reversed date ranges and show matching records in a table. Include filtered income, expenses, net movement and an expense-by-category chart. Derive every figure from saved records.
+
+FILE EXPORT AND IMPORT
+
+Export all tables as UTF-8 JSON using pocket-atlas-v1, stable UUID relationships, decimal currency strings and ISO dates. Read that file back through the GUI, map related records to local ids and skip existing identifiers without overwriting edits. Validate the full import and roll back all new records if any record is invalid. Enforce file-size limits and show the number imported; repeating a valid import may correctly add zero. Also export the filtered report as CSV with readable headings and protection against spreadsheet formula prefixes. Supply clearly labelled fictional sample data for screenshots.
+
+IMPLEMENTATION QUALITY AND TESTING
+
+Separate database logic, GUI pages and shared styling. Provide helpful success/error messages and keep data local. Test CRUD on every screen, validation, foreign-key restrictions, rounding, account balances, budget totals, filters and reports. Test JSON round trips in a fresh database, repeated imports and rollback. Exercise the menu bar, dirty-form cancellation and smaller layouts. Keep private databases, virtual environments, logs and generated builds out of Git. Include setup instructions, dependency pins and an honest AI-prompt record.
+
+EXECUTABLE AND GITHUB
+
+Build a windowed PocketAtlas executable with PyInstaller and distribute its entire output folder, including Qt libraries. Use application-relative storage in source mode and Local AppData for the packaged database so read-only installation folders work. Test the actual executable for startup, SQLite operations, screen navigation and JSON import/export. Push complete source to GitHub and provide its link, executable folder and an exported data file. Leave screenshots to me.
+
+COMMANDS
+
+Local launch and build:
+Set-Location "D:\Vibe Coding Practicals\30 - Pocket Atlas"
+.\Launch.cmd
+.\Build.cmd
+
+Source tests in the supplied D: workspace:
+& "..\.runtime\Scripts\python.exe" -m unittest -v test_pocket_atlas
+Distribute the complete dist\PocketAtlas folder.
+
+Update the existing GitHub checkout:
+git add .
+git commit -m "Refine Pocket Atlas expense manager"
+git push origin main
+Repository: https://github.com/aadityasamani/pocket-atlas-desktop
